@@ -1,0 +1,17 @@
+# 1) Preparar
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y apt-transport-https software-properties-common wget
+
+# 2) Importar llave y repo
+sudo mkdir -p /etc/apt/keyrings
+wget -qO- https://apt.grafana.com/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/grafana.gpg
+echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | \
+  sudo tee /etc/apt/sources.list.d/grafana.list
+
+# 3) Instalar y habilitar
+sudo apt update
+sudo apt install -y grafana
+sudo systemctl daemon-reload
+sudo systemctl enable grafana-server
+sudo systemctl start grafana-server
+sudo systemctl status grafana-server --no-pager
